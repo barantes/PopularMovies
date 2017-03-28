@@ -10,6 +10,6 @@
     <string name="load_movies_error">We cannot load the movies at this time. Please try again later.</string>
     <string-array name="movies_sort_spinner_options">
         <item>Most popular</item>
-        <item>Top rated</item>
+        <item>Highest rated</item>
     </string-array>
 </resources>
