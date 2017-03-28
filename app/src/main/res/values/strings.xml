@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="tmdbApiKey"></string>
+    <string name="movieThumbnailWidth">w185</string>
+    <string name="error_internet_permission_denied">Can\'t run app without INTERNET permission</string>
+    <string name="release_date">Released: %s</string>
+
+    <string name="movie_list_spinner_prompt">Show movies</string>
+    <string name="progress_dialog_text">Please wait…</string>
+    <string name="load_movies_error">We cannot load the movies at this time. Please try again later.</string>
+    <string-array name="movies_sort_spinner_options">
+        <item>Most popular</item>
+        <item>Top rated</item>
+    </string-array>
+</resources>

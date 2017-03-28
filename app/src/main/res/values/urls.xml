@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tmdbApiBaseUrl" translatable="false">http://api.themoviedb.org/3/</string>
+    <string name="tmdbImageBaseUrl" translatable="false">http://image.tmdb.org/t/p/</string>
+
+</resources>

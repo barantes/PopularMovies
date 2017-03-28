@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/movie_thumbnail_width"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/padding_1x">
+
+    <ImageView
+        android:layout_width="@dimen/movie_thumbnail_width"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/iv_movie_poster"
+        android:adjustViewBounds="true"/>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+        <!--<ImageView-->
+            <!--android:layout_width="@dimen/movie_thumbnail_width"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:srcCompat="@mipmap/ic_launcher"-->
+            <!--android:id="@+id/iv_movie_poster"-->
+            <!--android:adjustViewBounds="true"/>-->
+
+        <!--<TextView-->
+            <!--style="@style/movie_item_title"-->
+            <!--android:maxWidth="@dimen/movie_thumbnail_width"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/tv_movie_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:padding="@dimen/padding_2x"/>-->
+    <!--</LinearLayout>-->
+
+</FrameLayout>
