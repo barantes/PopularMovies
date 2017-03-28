@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity
 
     private void loadMovies() {
         showProgressDialog();
-        Observable<Movies> observable = null;
+        Observable<Movies> observable;
         switch (mCurrentSortOption) {
             case POSITION_SORT_TOP_RATED:
                 observable = getTopRatedMovies();
@@ -149,12 +149,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private Observable<Movies> getPopularMovies() {
-        //TODO hide api key from public repository
         return mMovieService.getPopularMovies(getString(R.string.tmdbApiKey));
     }
 
     private Observable<Movies> getTopRatedMovies() {
-        //TODO hide api key from public repository
         return mMovieService.getTopRatedMovies(getString(R.string.tmdbApiKey));
     }
 
