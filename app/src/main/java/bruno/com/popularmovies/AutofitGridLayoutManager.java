@@ -7,6 +7,7 @@ import android.util.TypedValue;
 
 /**
  * Created by Bruno on 22/03/2017.
+ * Adapted from the original code in https://codentrick.com/part-4-android-recyclerview-grid/
  */
 
 public class AutofitGridLayoutManager extends GridLayoutManager {
