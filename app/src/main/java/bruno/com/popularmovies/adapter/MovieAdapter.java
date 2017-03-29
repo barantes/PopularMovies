@@ -14,6 +14,9 @@ import java.util.List;
 import bruno.com.popularmovies.R;
 import bruno.com.popularmovies.model.MovieData;
 import bruno.com.popularmovies.tmdb.MovieImageUtil;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Bruno on 19/03/2017.
@@ -61,19 +64,24 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView ivPoster;
+        @BindView(R.id.iv_movie_poster)
+        ImageView ivPoster;
 
         ViewHolder(View itemView) {
             super(itemView);
-            ivPoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            onMovieClick();
+        }
+
+        private void onMovieClick() {
             int position = getAdapterPosition();
             if(mMovieClickListener != null
-                && position != RecyclerView.NO_POSITION) {
+                    && position != RecyclerView.NO_POSITION) {
                 MovieData movie = mMovies.get(position);
                 mMovieClickListener.onMovieClick(movie);
             }

@@ -1,5 +1,6 @@
 package bruno.com.popularmovies;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -11,6 +12,8 @@ import com.squareup.picasso.Picasso;
 
 import bruno.com.popularmovies.model.MovieData;
 import bruno.com.popularmovies.tmdb.MovieImageUtil;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -18,33 +21,45 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private MovieData mMovie;
 
+    @BindView(R.id.tv_movie_title)
+    TextView mTvTitle;
+
+    @BindView(R.id.tv_release_date)
+    TextView mTvReleaseDate;
+
+    @BindView(R.id.rb_average_rating)
+    RatingBar mRbRating;
+
+    @BindView(R.id.tv_overview)
+    TextView mTvOverview;
+
+    @BindView(R.id.iv_movie_poster)
+    ImageView mIvPoster;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar appBar = getSupportActionBar();
+        if(appBar != null) {
+            appBar.setDisplayHomeAsUpEnabled(true);
+        }
         setMovie();
         setContentView(R.layout.activity_movie_detail);
+        ButterKnife.bind(this);
         setViews();
     }
 
     private void setViews() {
-        ImageView poster = (ImageView) findViewById(R.id.iv_movie_poster);
         Picasso
                 .with(this)
                 .load(MovieImageUtil.getPosterUrl(this, mMovie))
-                .into(poster);
+                .into(mIvPoster);
 
-        TextView title = (TextView) findViewById(R.id.tv_movie_title);
-        title.setText(mMovie.getOriginalTitle());
-
-        TextView releaseDate = (TextView) findViewById(R.id.tv_release_date);
-        releaseDate.setText(String.format(getString(R.string.release_date), mMovie.getReleaseDate()));
-
-        RatingBar rating = (RatingBar) findViewById(R.id.rb_average_rating);
-        rating.setRating(getRating());
-
-        TextView overview = (TextView) findViewById(R.id.tv_overview);
-        overview.setText(mMovie.getOverview());
+        mTvTitle.setText(mMovie.getOriginalTitle());
+        mTvReleaseDate.setText(String.format(getString(R.string.release_date), mMovie.getReleaseDate()));
+        mRbRating.setRating(getRating());
+        mTvOverview.setText(mMovie.getOverview());
     }
 
     private float getRating() {

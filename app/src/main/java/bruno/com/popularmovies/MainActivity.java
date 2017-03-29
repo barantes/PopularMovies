@@ -22,6 +22,9 @@ import bruno.com.popularmovies.adapter.MovieAdapter;
 import bruno.com.popularmovies.model.MovieData;
 import bruno.com.popularmovies.model.Movies;
 import bruno.com.popularmovies.tmdb.MovieService;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -33,12 +36,18 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends AppCompatActivity
-        implements MovieAdapter.MovieClickListener, AdapterView.OnItemSelectedListener {
+        implements MovieAdapter.MovieClickListener {
 
     private static final String TAG = MainActivity.class.getName();
     private static final String KEY_MOVIES = "movies";
+    private static final String KEY_SORT_OPTION = "sort";
 
-    private RecyclerView mRvMovies;
+    @BindView(R.id.rv_movies)
+    RecyclerView mRvMovies;
+
+    @BindView(R.id.spinner)
+    Spinner mSpinner;
+
     private CompositeSubscription mSubscriptions;
     private Movies mMovies;
     private MovieService mMovieService;
@@ -48,20 +57,16 @@ public class MainActivity extends AppCompatActivity
     private static final int POSITION_SORT_TOP_RATED = 1;
     private int mCurrentSortOption = POSITION_SORT_POPULAR;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSubscriptions = new CompositeSubscription();
         setContentView(R.layout.activity_main);
-        initSpinner();
+        ButterKnife.bind(this);
         initRecyclerView();
         initMovieService();
         initData(savedInstanceState);
-    }
-
-    private void initSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
     }
 
     private void initMovieService() {
@@ -70,15 +75,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData(Bundle savedInstanceState) {
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(KEY_MOVIES)) {
-            Log.d(TAG, "initData(): loading movies from saved state");
-            mMovies = savedInstanceState.getParcelable(KEY_MOVIES);
-            displayMovies();
-        } else {
-            Log.d(TAG, "initData(): will load live movie data");
-            checkPermissionsAndLoadMovies();
+        if (savedInstanceState != null) {
+            Log.d(TAG, "initData(): restoring saved state");
+            mCurrentSortOption = savedInstanceState.containsKey(KEY_SORT_OPTION) ?
+                    savedInstanceState.getInt(KEY_SORT_OPTION) : POSITION_SORT_POPULAR;
+
+            if(savedInstanceState.containsKey(KEY_MOVIES)) {
+                Log.d(TAG, "initData(): loading movies from saved state");
+                mMovies = savedInstanceState.getParcelable(KEY_MOVIES);
+                displayMovies();
+                return;
+            }
         }
+
+        Log.d(TAG, "initData(): will load live movie data");
+        checkPermissionsAndLoadMovies();
     }
 
     private void checkPermissionsAndLoadMovies() {
@@ -174,7 +185,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initRecyclerView() {
-        mRvMovies = (RecyclerView) findViewById(R.id.rv_movies);
         mRvMovies.setHasFixedSize(true);
         GridLayoutManager layoutManager = new AutofitGridLayoutManager(this,
                 getResources().getDimensionPixelSize(R.dimen.movie_thumbnail_width)
@@ -185,6 +195,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(KEY_MOVIES, mMovies);
+        outState.putInt(KEY_SORT_OPTION, mCurrentSortOption);
         super.onSaveInstanceState(outState);
     }
 
@@ -234,17 +245,12 @@ public class MainActivity extends AppCompatActivity
         openMovieDetails(movie);
     }
 
-    @Override
+    @OnItemSelected(R.id.spinner)
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
         Log.d(TAG, String.format("onItemSelected(): position = %d", position));
         if(position != mCurrentSortOption) {
             mCurrentSortOption = position;
             loadMovies();
         }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        // do nothing
     }
 }
